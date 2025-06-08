@@ -11,7 +11,7 @@ from langchain_groq import ChatGroq
 from queue import Queue
 from datetime import datetime
 
-GROQ_API_KEY = "your_api_key"
+GROQ_API_KEY = "your_qroq_api"
 
 # Global variable for target domain
 TARGET = ""
@@ -367,6 +367,7 @@ def generate_structured_json_report():
     with open("vapt_report.json", "w") as f:
         json.dump(report, f, indent=2)
     print("\n=== Report Generated ===\nStructured JSON report saved as 'vapt_report.json'")
+    print("\n --------END OF SCANNING -----------")
 
 # Input listener for skipping
 def skip_listener():
@@ -377,7 +378,7 @@ def skip_listener():
         time.sleep(0.1)  # Prevent CPU overload
 
 if __name__ == "__main__":
-    print("Welcome to the Phase-wise VAPT Scanner with Adaptive Throttling\n")
+    print("Welcome to the Gen AI-Driven Vulnerability Scanner with Parallelisation and Automated Report Generation\n")
     TARGET = input("Enter the target domain/IP (e.g., example.com or www.example.com): ").strip()
 
     # Start skip listener in a separate thread
@@ -444,8 +445,8 @@ if __name__ == "__main__":
     # Phase 5
     print("\nStarting Phase 5: Exploitation")
     if not should_skip():
-        choice = input("SQL Injection: ").strip()
-        if choice == "2":
+        choice = input("1: SQL Injection: ").strip()
+        if choice == "1":
             scan_results["Phase_5"]["tool_outputs"]["sqlmap"] = run_sqlmap(TARGET)
             print(f"\n=== SQLMap Result ===\n{scan_results['Phase_5']['tool_outputs']['sqlmap']}")
             scan_results["Phase_5"]["llm_analysis"] = query_llm(f"Analyze the following output:\n\n{scan_results['Phase_5']['tool_outputs']['sqlmap']}")
